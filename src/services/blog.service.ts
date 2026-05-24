@@ -11,6 +11,8 @@ interface ServiceOptions {
 interface GetBlogsParams {
   isFeatured?: boolean;
   search?: string;
+  page?: string;
+  limit?: string;
 }
 
 export interface BlogData {
