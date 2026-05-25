@@ -95,6 +95,3 @@ export default async function BlogPage({
     </article>
   );
 }
-
-// This can be used only in client component
-//   const { id } = useParams();
