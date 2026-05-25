@@ -39,10 +39,10 @@ export default function PaginationControls({ meta }: PaginationControlsProps) {
   const end = Math.min(currentPage * pageSize, total);
 
   return (
-    <div className="flex items-center justify-between px-2 py-4 border-t mt-4">
-      <div className="text-sm text-muted-foreground">
+    <div className="flex items-center justify-center px-2 mt-4">
+      {/* <div className="text-sm text-muted-foreground">
         Showing {start} to {end} of {total} results
-      </div>
+      </div> */}
 
       <div className="flex items-center space-x-2">
         <Button
