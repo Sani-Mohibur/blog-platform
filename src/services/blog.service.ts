@@ -37,16 +37,16 @@ export const blogService = {
         });
       }
 
+      // Initialize with default no-store fallback cleanly
       const config: RequestInit = {
-        // Default to no-store if no specific cache options are provided
         cache: options?.cache || "no-store",
       };
 
-      if (options?.revalidate) {
-        config.next = { revalidate: options.revalidate };
-      }
-
-      config.next = { ...config.next, tags: ["blogPosts"] };
+      // Set up next properties only if explicitly required or fallback to tags safely
+      config.next = {
+        ...(options?.revalidate ? { revalidate: options.revalidate } : {}),
+        tags: ["blogPosts"],
+      };
 
       const res = await fetch(url.toString(), config);
       const data = await res.json();
