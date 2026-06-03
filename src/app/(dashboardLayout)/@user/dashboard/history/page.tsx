@@ -2,6 +2,8 @@ import HistoryTable from "@/components/modules/user/history/HistoryTable";
 import PaginationControls from "@/components/ui/pagination-controls";
 import { blogService } from "@/services/blog.service";
 
+export const dynamic = "force-dynamic";
+
 export default async function HistoryPage({
   searchParams,
 }: {
