@@ -1,22 +1,11 @@
-//! This can be used only in client component
-// import { useParams } from "next/navigation";
-
 import CommentsSection from "@/components/modules/homepage/CommentsSection";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { blogService } from "@/services/blog.service";
-import { BlogPost } from "@/types";
+import { notFound } from "next/navigation"; // Added for error safety
 
-// export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  const { data } = await blogService.getBlogPosts();
-
-  // Fallback to an empty array if data is missing
-  const posts = data?.Posts?.data || [];
-
-  return posts.map((blog: BlogPost) => ({ id: blog.id })).splice(0, 3);
-}
+// CRITICAL: Forces Next.js to fetch fresh on every single click, triggering your backend view counter
+export const dynamic = "force-dynamic";
 
 export default async function BlogPage({
   params,
@@ -25,7 +14,12 @@ export default async function BlogPage({
 }) {
   const { id } = await params;
 
-  const { data: blog } = await blogService.getBlogById(id);
+  const { data: blog, error } = await blogService.getBlogById(id);
+
+  // Safely redirect if the post doesn't exist instead of throwing a 500 error
+  if (error || !blog) {
+    notFound();
+  }
 
   const formattedDate = new Date(blog.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -33,8 +27,7 @@ export default async function BlogPage({
     day: "numeric",
   });
 
-  // Estimate reading time (average 200 words per minute)
-  const wordCount = blog.content.split(/\s+/).length;
+  const wordCount = blog.content ? blog.content.split(/\s+/).length : 0;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
   return (
@@ -50,7 +43,7 @@ export default async function BlogPage({
           <span>·</span>
           <span>{readingTime} min read</span>
           <span>·</span>
-          <span>{blog.views} views</span>
+          <span>{blog.views ?? 0} views</span>
         </div>
       </header>
 
