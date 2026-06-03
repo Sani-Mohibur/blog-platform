@@ -11,6 +11,8 @@ import {
 
 import { adminService } from "@/services/admin.service";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const { data: stats, error } = await adminService.getStats();
 
