@@ -47,7 +47,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: callbackUrl,
+        callbackURL: "https://blog-post-khaki.vercel.app",
       });
     } catch (err) {
       toast.error("Google authentication failed");

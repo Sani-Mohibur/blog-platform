@@ -39,7 +39,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: callbackUrl, // Dynamically routes Google users too
+        callbackURL: "https://blog-post-khaki.vercel.app", // Dynamically routes Google users too
       });
     } catch (err) {
       toast.error("Google authentication failed");
