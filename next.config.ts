@@ -22,6 +22,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/auth/:path*",
+        destination:
+          "https://prisma-blog-server-a55e.onrender.com/api/auth/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
