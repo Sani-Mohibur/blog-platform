@@ -37,11 +37,10 @@ export const blogService = {
         });
       }
 
-      const config: RequestInit = {};
-
-      if (options?.cache) {
-        config.cache = options.cache;
-      }
+      const config: RequestInit = {
+        // Default to no-store if no specific cache options are provided
+        cache: options?.cache || "no-store",
+      };
 
       if (options?.revalidate) {
         config.next = { revalidate: options.revalidate };
@@ -50,7 +49,6 @@ export const blogService = {
       config.next = { ...config.next, tags: ["blogPosts"] };
 
       const res = await fetch(url.toString(), config);
-
       const data = await res.json();
 
       return { data: data, error: null };
@@ -61,14 +59,16 @@ export const blogService = {
 
   getBlogById: async function (id: string) {
     try {
-      const res = await fetch(`${API_URL}/posts/${id}`);
+      // CRITICAL FIX: Explicitly pass cache: "no-store" here
+      const res = await fetch(`${API_URL}/posts/${id}`, {
+        cache: "no-store",
+      });
 
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       const data = await res.json();
-
       return { data: data, error: null };
     } catch (err) {
       return { data: null, error: { message: "Something Went Wrong" } };
