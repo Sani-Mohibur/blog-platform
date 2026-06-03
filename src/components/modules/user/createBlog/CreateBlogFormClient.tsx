@@ -31,6 +31,7 @@ const blogSchema = z.object({
     .string()
     .min(10, "Content must be at least 10 characters")
     .max(5000, "Content must be less than 5000 characters"),
+  thumbnail: z.string().url("Please enter a valid image URL").or(z.literal("")), // Allows empty string if thumbnail is optional
   tags: z.string(),
 });
 
@@ -39,6 +40,7 @@ export function CreateBlogFormClient() {
     defaultValues: {
       title: "",
       content: "",
+      thumbnail: "", // Added default state value
       tags: "",
     },
     validators: {
@@ -50,6 +52,7 @@ export function CreateBlogFormClient() {
       const blogData = {
         title: value.title,
         content: value.content,
+        thumbnail: value.thumbnail || null, // Forward image link value
         tags: value.tags
           .split(",")
           .map((item) => item.trim())
@@ -115,6 +118,34 @@ export function CreateBlogFormClient() {
                 );
               }}
             />
+
+            {/* Thumbnail Link Field */}
+            <form.Field
+              name="thumbnail"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>
+                      Thumbnail Image URL
+                    </FieldLabel>
+                    <Input
+                      type="url"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                );
+              }}
+            />
+
             <form.Field
               name="content"
               children={(field) => {
