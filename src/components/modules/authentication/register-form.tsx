@@ -40,7 +40,8 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const searchParams = useSearchParams();
 
   // Dynamic routing setup using the specified fallback configuration
-  const callbackUrl = searchParams.get("callbackUrl") || "/#";
+  const callbackUrl =
+    searchParams.get("callbackUrl") || "https://blog-post-khaki.vercel.app";
 
   const handleGoogleLogin = async () => {
     try {

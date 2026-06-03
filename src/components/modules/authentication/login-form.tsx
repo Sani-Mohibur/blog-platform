@@ -32,7 +32,8 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const searchParams = useSearchParams();
 
   // Capture the previous URL from the search params, fallback to dashboard
-  const callbackUrl = searchParams.get("callbackUrl") || "/#";
+  const callbackUrl =
+    searchParams.get("callbackUrl") || "https://blog-post-khaki.vercel.app";
 
   const handleGoogleLogin = async () => {
     try {
