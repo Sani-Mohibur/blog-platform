@@ -7,6 +7,8 @@ import { BlogPost } from "@/types";
 import PaginationControls from "@/components/ui/pagination-controls";
 import BlogCard from "@/components/modules/homepage/BlogCard";
 
+export const dynamic = "force-dynamic";
+
 type SearchParams = Promise<{
   page?: string;
   title?: string;
