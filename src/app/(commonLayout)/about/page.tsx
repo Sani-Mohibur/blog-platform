@@ -43,9 +43,27 @@ export default function AboutPage() {
   ];
 
   const techStack = [
-    { name: "Next.js 16", layer: "Frontend Framework", icon: Layers },
-    { name: "Express.js", layer: "Backend Runtime", icon: Terminal },
-    { name: "PostgreSQL", layer: "Database Storage", icon: Database },
+    {
+      name: "Next.js 16",
+      layer: "Frontend Framework",
+      icon: Layers,
+      hoverColor:
+        "group-hover:text-black dark:group-hover:text-white group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800",
+    },
+    {
+      name: "Express.js",
+      layer: "Backend Runtime",
+      icon: Terminal,
+      hoverColor:
+        "group-hover:text-emerald-500 dark:group-hover:text-emerald-400 group-hover:bg-emerald-500/5",
+    },
+    {
+      name: "PostgreSQL",
+      layer: "Database Storage",
+      icon: Database,
+      hoverColor:
+        "group-hover:text-blue-500 dark:group-hover:text-blue-400 group-hover:bg-blue-500/5",
+    },
   ];
 
   return (
@@ -106,13 +124,16 @@ export default function AboutPage() {
               return (
                 <div
                   key={tech.name}
-                  className="flex items-center gap-4 rounded-xl bg-white/50 dark:bg-zinc-900/40 border border-white/60 dark:border-zinc-800/60 p-5 hover:bg-white/80 dark:hover:bg-zinc-900/80 transition-colors shadow-sm"
+                  className="group flex items-center gap-4 rounded-xl bg-white/50 dark:bg-zinc-900/40 border border-white/60 dark:border-zinc-800/60 p-5 hover:bg-white/80 dark:hover:bg-zinc-900/80 hover:border-purple-300/30 dark:hover:border-purple-500/20 transition-all duration-300 shadow-sm"
                 >
-                  <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50 text-zinc-500 dark:text-zinc-400">
+                  {/* Reactive Icon Wrapper Wrapper Box */}
+                  <div
+                    className={`p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50 text-zinc-500 dark:text-zinc-400 transition-all duration-300 ${tech.hoverColor}`}
+                  >
                     <Icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                    <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
                       {tech.name}
                     </p>
                     <p className="text-xs text-zinc-400 dark:text-zinc-500">
