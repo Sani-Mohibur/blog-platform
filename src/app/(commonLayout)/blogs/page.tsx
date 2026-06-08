@@ -218,9 +218,9 @@ function BlogsContent() {
             All Publications
           </h2>
 
-          <div className="rounded-xl border border-zinc-200/60 dark:border-zinc-800/80 bg-zinc-100/50 dark:bg-zinc-900/50 px-3 py-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          {/* <div className="rounded-xl border border-zinc-200/60 dark:border-zinc-800/80 bg-zinc-100/50 dark:bg-zinc-900/50 px-3 py-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
             {pagination.total} Articles Found
-          </div>
+          </div> */}
         </div>
 
         {/* IS LOADING STATE */}
