@@ -27,8 +27,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination:
-          "https://prisma-blog-server-a55e.onrender.com/api/auth/:path*",
+        destination: "https://prisma-blog-server-a55e.onrender.com/api/:path*",
       },
     ];
   },
