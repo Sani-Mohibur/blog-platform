@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Footer() {
   const pathname = usePathname(); // 2. Paste this here
@@ -19,6 +21,8 @@ export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const [email, setEmail] = useState("");
 
   return (
     <footer className="border-t border-border/100 bg-background mt-4">
@@ -92,9 +96,46 @@ export default function Footer() {
             </div>
 
             <div className="flex gap-2">
-              <Input placeholder="Enter your email" className="h-9 text-sm" />
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="h-9 text-sm"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-              <Button className="h-9 px-5">Subscribe</Button>
+              <Button
+                className="h-9 px-5"
+                onClick={() => {
+                  const trimmedEmail = email.trim();
+
+                  // 1. If empty
+                  if (!trimmedEmail) {
+                    toast.error("Email required", {
+                      description: "Please enter an email address.",
+                    });
+                    return;
+                  }
+
+                  // 2. Simple regex for validation checking
+                  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                  if (!emailRegex.test(trimmedEmail)) {
+                    toast.error("Invalid email address", {
+                      description: "Please enter a valid email address.",
+                    });
+                    return;
+                  }
+
+                  // 3. Success condition
+                  toast.success("Successfully subscribed!", {
+                    description:
+                      "Thank you for tuning in to our weekly updates.",
+                  });
+                  setEmail(""); // Clean input field after success
+                }}
+              >
+                Subscribe
+              </Button>
             </div>
           </div>
         </div>
