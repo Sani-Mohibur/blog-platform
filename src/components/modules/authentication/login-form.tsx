@@ -21,6 +21,7 @@ import { authClient } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { env } from "@/env";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -31,15 +32,14 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Capture the previous URL from the search params, fallback to dashboard
   const callbackUrl =
-    searchParams.get("callbackUrl") || "https://blog-post-khaki.vercel.app";
+    searchParams.get("callbackUrl") || env.NEXT_PUBLIC_FRONTEND_URL;
 
   const handleGoogleLogin = async () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "https://blog-post-khaki.vercel.app", // Dynamically routes Google users too
+        callbackURL: callbackUrl, // Dynamically routes Google users too
       });
     } catch (err) {
       toast.error("Google authentication failed");
