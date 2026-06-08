@@ -37,8 +37,8 @@ export default function FeaturedPostsSection({ featuredPosts }: Props) {
 
           {/* 🔑 IS LOADING STATE SKELETONS */}
           {isLoading ? (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {[...Array(6)].map((_, i) => (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-2">
+              {[...Array(4)].map((_, i) => (
                 <div
                   key={i}
                   className="h-64 w-full animate-pulse rounded-2xl bg-zinc-200 dark:bg-zinc-800"
