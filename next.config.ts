@@ -26,8 +26,15 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        // 1. Keep auth requests routed to backend auth handler
+        source: "/api/auth/:path*",
+        destination:
+          "https://prisma-blog-server-a55e.onrender.com/api/auth/:path*",
+      },
+      {
+        // 2. Map all other data calls (like /api/posts -> /posts) by stripping out "/api"
         source: "/api/:path*",
-        destination: "https://prisma-blog-server-a55e.onrender.com/api/:path*",
+        destination: "https://prisma-blog-server-a55e.onrender.com/:path*",
       },
     ];
   },
