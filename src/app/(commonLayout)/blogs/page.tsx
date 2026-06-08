@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, Tag, X, FileText, RefreshCw } from "lucide-react";
 import PaginationControls from "@/components/ui/pagination-controls";
 import BlogCard from "@/components/modules/homepage/BlogCard";
 import { BlogPost } from "@/types";
 
-export default function BlogsPage() {
+function BlogsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -250,5 +250,19 @@ export default function BlogsPage() {
         )}
       </section>
     </main>
+  );
+}
+
+export default function BlogsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-zinc-50/50 dark:bg-zinc-950/20">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-500 border-t-transparent" />
+        </div>
+      }
+    >
+      <BlogsContent />
+    </Suspense>
   );
 }
