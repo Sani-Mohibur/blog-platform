@@ -1,48 +1,98 @@
-import Link from "next/link";
-import { Search } from "lucide-react";
+"use client";
 
-import { blogService } from "@/services/blog.service";
-
-import { BlogPost } from "@/types";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Search, Tag, X, FileText, RefreshCw } from "lucide-react";
 import PaginationControls from "@/components/ui/pagination-controls";
 import BlogCard from "@/components/modules/homepage/BlogCard";
+import { BlogPost } from "@/types";
 
-export const dynamic = "force-dynamic";
+export default function BlogsPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-type SearchParams = Promise<{
-  page?: string;
-  title?: string;
-  tags?: string;
-}>;
+  // Read URL params safely on the client side
+  const urlFilter = searchParams.get("filter") || "title";
+  const urlTitle = searchParams.get("title") || "";
+  const urlTags = searchParams.get("tags") || "";
+  const urlPage = searchParams.get("page") || "1";
 
-export default async function BlogsPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const { page, title, tags } = await searchParams;
+  // Manage live filter state
+  const [selectedFilter, setSelectedFilter] = useState(urlFilter);
+  const [searchQuery, setSearchQuery] = useState(
+    urlFilter === "tags" ? urlTags : urlTitle,
+  );
 
-  const response = await blogService.getBlogPosts({
-    page,
-    search: title,
-    ...(tags ? { tags } : {}),
-  });
-
-  const posts = response.data?.data || [];
-
-  const pagination = response.data?.pagination || {
+  // Data state management
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [pagination, setPagination] = useState({
     limit: 9,
     page: 1,
     total: 0,
     totalPages: 1,
+  });
+
+  // Sync state cleanly if the URL changes directly
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const url = new URL(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/posts`,
+      );
+
+      url.searchParams.append("page", urlPage);
+      url.searchParams.append("limit", "9");
+
+      if (urlFilter === "title" && urlTitle) {
+        url.searchParams.append("title", urlTitle);
+      }
+      if (urlFilter === "tags" && urlTags) {
+        url.searchParams.append("tags", urlTags);
+      }
+
+      try {
+        const res = await fetch(url.toString(), { cache: "no-store" });
+        const result = await res.json();
+
+        // Adapt this mapping to match your server response structure structure
+        setPosts(result?.data || []);
+        setPagination(
+          result?.pagination || { limit: 9, page: 1, total: 0, totalPages: 1 },
+        );
+      } catch (err) {
+        console.error("Failed to fetch blogs:", err);
+      }
+    };
+
+    fetchBlogs();
+  }, [urlPage, urlFilter, urlTitle, urlTags]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    params.set("filter", selectedFilter);
+    params.set("page", "1"); // Reset to page 1 on new search
+
+    if (searchQuery.trim()) {
+      if (selectedFilter === "tags") {
+        params.set("tags", searchQuery.trim());
+      } else {
+        params.set("title", searchQuery.trim());
+      }
+    }
+
+    router.push(`/blogs?${params.toString()}`);
   };
 
-  const currentFilter = tags ? "tags" : "title";
-  const currentValue = tags || title || "";
+  const clearFilters = () => {
+    setSearchQuery("");
+    router.push("/blogs");
+  };
+
+  const hasActiveFilters = !!urlTitle || !!urlTags;
 
   return (
-    <main className="min-h-screen">
-      <section className="mx-auto max-w-7xl px-6 py-6">
+    <main className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950/20">
+      <section className="mx-auto max-w-7xl px-6 py-10">
         {/* Hero */}
         <div className="relative overflow-hidden rounded-4xl border border-border/50 bg-gradient-to-b from-muted/40 to-background p-8 md:p-14">
           {/* Background Glow */}
@@ -66,83 +116,125 @@ export default async function BlogsPage({
           </div>
         </div>
 
-        {/* Search */}
-        <div className="mt-10 rounded-3xl border border-border/50 bg-background/70 p-5 shadow-sm backdrop-blur">
-          <form className="flex flex-col gap-4 md:flex-row">
-            {/* Search Type */}
+        {/* SEARCH PANEL */}
+        <div className="mt-8 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-white/80 dark:bg-zinc-900/60 p-4 shadow-sm">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex flex-col gap-3 md:flex-row"
+          >
             <select
-              name="filter"
-              defaultValue={currentFilter}
-              className="h-12 rounded-2xl border border-border bg-background px-4 text-sm outline-none transition focus:ring-2 focus:ring-primary/20"
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
+              className="h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 text-sm font-medium outline-none cursor-pointer"
             >
               <option value="title">Search by Title</option>
               <option value="tags">Search by Tag</option>
             </select>
 
-            {/* Search Input */}
             <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
               <input
                 type="text"
-                name={currentFilter}
-                defaultValue={currentValue}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={
-                  currentFilter === "tags"
-                    ? "Search by tag..."
+                  selectedFilter === "tags"
+                    ? "Search by tag (e.g. backend, react)..."
                     : "Search blog titles..."
                 }
-                className="h-12 w-full rounded-2xl border border-border bg-background pl-11 pr-4 text-sm outline-none transition focus:ring-2 focus:ring-primary/20"
+                className="h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 pl-11 pr-4 text-sm outline-none focus:ring-2 focus:ring-purple-500/20"
               />
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
-              className="h-12 w-32 rounded-2xl bg-primary px-6 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+              className="h-11 rounded-xl bg-zinc-900 dark:bg-zinc-50 px-6 text-sm font-medium text-white dark:text-zinc-950 transition active:scale-95"
             >
               Search
             </button>
           </form>
         </div>
 
-        {/* Section Header */}
-        <div className="mt-14 mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 className="text-4xl font-bold tracking-tight">All Blogs</h2>
+        {/* PREMIUM ACTIVE CONTEXT BANNER */}
+        {hasActiveFilters && (
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm bg-purple-50/40 dark:bg-purple-950/10 border border-purple-100/80 dark:border-purple-900/30 rounded-xl p-3">
+            <span className="text-zinc-500 dark:text-zinc-400 font-medium">
+              Active Search:
+            </span>
 
-            <p className="mt-3 max-w-2xl text-muted-foreground leading-7">
-              Explore our newest articles featuring thoughtful insights, and
-              engaging discussions.
-            </p>
-          </div>
+            {urlTitle && (
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-white dark:bg-zinc-900 border px-2.5 py-1 text-xs font-medium text-zinc-800 dark:text-zinc-200 shadow-sm">
+                <FileText className="h-3 w-3 text-purple-500" />
+                Title matches:{" "}
+                <strong className="text-purple-600 dark:text-purple-400">
+                  "{urlTitle}"
+                </strong>
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="hover:bg-zinc-100 dark:hover:bg-zinc-800 p-0.5 rounded-md"
+                >
+                  <X className="h-3 w-3 text-zinc-400" />
+                </button>
+              </span>
+            )}
 
-          {/* <div className="rounded-2xl border border-border/50 px-5 py-3 text-sm text-muted-foreground">
-            {pagination.total} Articles Found
-          </div> */}
-        </div>
+            {urlTags && (
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-white dark:bg-zinc-900 border px-2.5 py-1 text-xs font-medium text-zinc-800 dark:text-zinc-200 shadow-sm">
+                <Tag className="h-3 w-3 text-emerald-500" />
+                Tag matches:{" "}
+                <strong className="text-emerald-600 dark:text-emerald-400">
+                  #{urlTags}
+                </strong>
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="hover:bg-zinc-100 dark:hover:bg-zinc-800 p-0.5 rounded-md"
+                >
+                  <X className="h-3 w-3 text-zinc-400" />
+                </button>
+              </span>
+            )}
 
-        {/* Empty State */}
-        {posts.length === 0 && (
-          <div className="flex min-h-[300px] flex-col items-center justify-center rounded-3xl border border-dashed border-border text-center">
-            <h3 className="text-2xl font-semibold tracking-tight">
-              No blogs found
-            </h3>
-
-            <p className="mt-3 max-w-md text-muted-foreground">
-              Try searching with different keywords or explore other topics.
-            </p>
-
-            <Link
-              href="/blogs"
-              className="mt-6 rounded-2xl bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+            <button
+              onClick={clearFilters}
+              className="ml-auto inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-purple-500 underline"
             >
-              Clear Search
-            </Link>
+              <RefreshCw className="h-3 w-3" /> Clear filters
+            </button>
           </div>
         )}
 
-        {/* Blogs Grid */}
+        {/* HEADER SECTION */}
+        <div className="mt-10 mb-6 flex items-center justify-between border-b pb-4 border-zinc-200/60 dark:border-zinc-800/60">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+            All Publications
+          </h2>
+
+          <div className="rounded-xl border border-zinc-200/60 dark:border-zinc-800/80 bg-zinc-100/50 dark:bg-zinc-900/50 px-3 py-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            {pagination.total} Articles Found
+          </div>
+        </div>
+
+        {/* EMPTY STATE */}
+        {posts.length === 0 && (
+          <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-center p-8">
+            <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">
+              No matching records found
+            </h3>
+            <p className="mt-2 text-sm text-zinc-400">
+              Try adjusting your search criteria or tags.
+            </p>
+            <button
+              onClick={clearFilters}
+              className="mt-4 rounded-xl bg-zinc-950 dark:bg-zinc-50 px-4 py-2 text-xs font-medium text-white dark:text-zinc-950"
+            >
+              Reset Search
+            </button>
+          </div>
+        )}
+
+        {/* CONTENT GRID */}
         {posts.length > 0 && (
           <>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -151,8 +243,7 @@ export default async function BlogsPage({
               ))}
             </div>
 
-            {/* Pagination */}
-            <div className="mt-14">
+            <div className="mt-12 flex justify-center">
               <PaginationControls meta={pagination} />
             </div>
           </>

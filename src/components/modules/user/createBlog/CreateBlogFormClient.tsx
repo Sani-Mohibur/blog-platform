@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation"; // 1. Import useRouter
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -31,16 +32,18 @@ const blogSchema = z.object({
     .string()
     .min(10, "Content must be at least 10 characters")
     .max(5000, "Content must be less than 5000 characters"),
-  thumbnail: z.string().url("Please enter a valid image URL").or(z.literal("")), // Allows empty string if thumbnail is optional
+  thumbnail: z.string().url("Please enter a valid image URL").or(z.literal("")),
   tags: z.string(),
 });
 
 export function CreateBlogFormClient() {
+  const router = useRouter(); // 2. Initialize router
+
   const form = useForm({
     defaultValues: {
       title: "",
       content: "",
-      thumbnail: "", // Added default state value
+      thumbnail: "",
       tags: "",
     },
     validators: {
@@ -52,19 +55,15 @@ export function CreateBlogFormClient() {
       const blogData = {
         title: value.title,
         content: value.content,
-        thumbnail: value.thumbnail || null, // Forward image link value
+        thumbnail: value.thumbnail || null,
         tags: value.tags
           .split(",")
           .map((item) => item.trim())
           .filter((item) => item !== ""),
       };
 
-      console.log(blogData);
-
       try {
         const res = await createBlogPost(blogData);
-
-        console.log(res);
 
         if (res.error) {
           toast.error(res.error.message, { id: toastId });
@@ -72,6 +71,11 @@ export function CreateBlogFormClient() {
         }
 
         toast.success("Post Created", { id: toastId });
+
+        // 3. Clear form values and send user to history page layout
+        form.reset();
+        router.push("/dashboard/history");
+        router.refresh();
       } catch (err) {
         toast.error("Something Went Wrong", { id: toastId });
       }
@@ -81,9 +85,9 @@ export function CreateBlogFormClient() {
   return (
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+        <CardTitle>Create Blog Post</CardTitle>
         <CardDescription>
-          Enter your information below to create your account
+          Fill out the details below to publish a new blog entry
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -91,6 +95,7 @@ export function CreateBlogFormClient() {
           id="blog-post"
           onSubmit={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             form.handleSubmit();
           }}
         >
@@ -119,7 +124,6 @@ export function CreateBlogFormClient() {
               }}
             />
 
-            {/* Thumbnail Link Field */}
             <form.Field
               name="thumbnail"
               children={(field) => {
@@ -168,6 +172,7 @@ export function CreateBlogFormClient() {
                 );
               }}
             />
+
             <form.Field
               name="tags"
               children={(field) => {

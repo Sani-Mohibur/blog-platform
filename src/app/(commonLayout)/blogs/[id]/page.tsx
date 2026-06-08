@@ -2,9 +2,9 @@ import CommentsSection from "@/components/modules/homepage/CommentsSection";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { blogService } from "@/services/blog.service";
-import { notFound } from "next/navigation"; // Added for error safety
+import ReadTimeTracker from "@/components/modules/blog/ReadTimeTracker";
+import { notFound } from "next/navigation";
 
-// CRITICAL: Forces Next.js to fetch fresh on every single click, triggering your backend view counter
 export const dynamic = "force-dynamic";
 
 export default async function BlogPage({
@@ -14,10 +14,10 @@ export default async function BlogPage({
 }) {
   const { id } = await params;
 
-  const { data: blog, error } = await blogService.getBlogById(id);
+  const response = await blogService.getBlogById(id);
+  const blog = response?.data?.data || response?.data;
 
-  // Safely redirect if the post doesn't exist instead of throwing a 500 error
-  if (error || !blog) {
+  if (response.error || !blog) {
     notFound();
   }
 
@@ -27,36 +27,56 @@ export default async function BlogPage({
     day: "numeric",
   });
 
-  const wordCount = blog.content ? blog.content.split(/\s+/).length : 0;
-  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
-
   return (
-    <article className="container mx-auto px-4 py-12 max-w-2xl">
+    <article className="container mx-auto px-4 py-12 max-w-3xl">
+      {/* Premium Featured Banner Above Title */}
+      {blog.isFeatured && (
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest text-amber-500 uppercase mb-3">
+          ✦ Featured Post
+        </span>
+      )}
+
       {/* Header */}
-      <header className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
+      <header className="mb-6">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 text-zinc-900 dark:text-zinc-50">
           {blog.title}
         </h1>
 
-        <div className="flex items-center gap-3 text-muted-foreground text-sm">
+        {/* Polished Meta Metadata Bar */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-zinc-500 dark:text-zinc-400 text-sm border-y border-zinc-100 dark:border-zinc-800/60 py-3.5">
+          <span className="font-semibold text-zinc-800 dark:text-zinc-200">
+            By {blog.authorName || "Anonymous"}
+          </span>
+          <span className="text-zinc-300 dark:text-zinc-700">|</span>
           <span>{formattedDate}</span>
-          <span>·</span>
-          <span>{readingTime} min read</span>
-          <span>·</span>
+          <span className="text-zinc-300 dark:text-zinc-700">·</span>
+          <ReadTimeTracker postId={id} initialSeconds={blog.readTime || 0} />
+          <span className="text-zinc-300 dark:text-zinc-700">·</span>
           <span>{blog.views ?? 0} views</span>
         </div>
       </header>
 
-      <Separator className="mb-8" />
+      {/* Premium Aspect-Ratio Thumbnail Card */}
+      {blog.thumbnail && (
+        <div className="mb-8 overflow-hidden rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 bg-zinc-100 dark:bg-zinc-900 shadow-md">
+          <img
+            src={blog.thumbnail}
+            alt={blog.title}
+            className="w-full max-h-[500px] object-contain object-center hover:scale-[1.01] transition-transform duration-500"
+          />
+        </div>
+      )}
 
-      {/* Content */}
-      <div className="prose prose-lg dark:prose-invert max-w-none leading-relaxed text-foreground">
-        <p className="whitespace-pre-wrap text-lg leading-8">{blog.content}</p>
+      {/* Content Body with Editorial Drop Cap */}
+      <div className="prose prose-zinc prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200">
+        <p className="whitespace-pre-wrap text-base md:text-lg leading-8 first-letter:text-5xl first-letter:font-extrabold first-letter:mr-3 first-letter:float-left first-letter:text-zinc-900 dark:first-letter:text-zinc-50 first-letter:leading-none">
+          {blog.content}
+        </p>
       </div>
 
       <Separator className="my-8" />
 
-      {/* Footer */}
+      {/* Footer tags and counts */}
       <footer className="space-y-6">
         {blog.tags && blog.tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
@@ -64,21 +84,18 @@ export default async function BlogPage({
               <Badge
                 key={tag}
                 variant="secondary"
-                className="px-3 py-1 text-sm font-normal rounded-full"
+                className="px-3 py-1 text-xs md:text-sm font-normal rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 transition-colors border-none"
               >
-                {tag}
+                #{tag}
               </Badge>
             ))}
           </div>
         )}
 
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <span>{blog._count?.comments ?? 0} comments</span>
-          {blog.isFeatured && (
-            <Badge variant="outline" className="rounded-full">
-              Featured
-            </Badge>
-          )}
+        <div className="flex items-center justify-between text-sm text-zinc-500 dark:text-zinc-400">
+          <span className="font-medium">
+            {blog._count?.comments ?? 0} comments
+          </span>
         </div>
       </footer>
 
