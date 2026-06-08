@@ -2,6 +2,11 @@
 
 The official premium frontend client driving a modern, interactive content and analytics platform. Engineered on **Next.js 15 (App Router)** and built with **TypeScript**, this interface delivers instant page rendering using hybrid Server-Client state pipelines. It features state-of-the-art slot parallel layouts, real-time activity metrics capturing, and fluid theme state shifts styled with **Tailwind CSS** and **Shadcn UI**.
 
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Shadcn UI](https://img.shields.io/badge/Shadcn_UI-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
+
 ## 🌐 Live Demo
 
 * **Live Interface Client Link:** [https://blog-post-khaki.vercel.app](https://blog-post-khaki.vercel.app)
