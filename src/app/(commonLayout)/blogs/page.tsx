@@ -25,6 +25,7 @@ function BlogsContent() {
 
   // Data state management
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({
     limit: 9,
     page: 1,
@@ -35,6 +36,7 @@ function BlogsContent() {
   // Sync state cleanly if the URL changes directly
   useEffect(() => {
     const fetchBlogs = async () => {
+      setIsLoading(true);
       const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       const url = new URL(`${baseUrl}/posts`);
 
@@ -57,13 +59,14 @@ function BlogsContent() {
         }
         const result = await res.json();
 
-        // Adapt this mapping to match your server response structure structure
         setPosts(result?.data || []);
         setPagination(
           result?.pagination || { limit: 9, page: 1, total: 0, totalPages: 1 },
         );
       } catch (err) {
         console.error("Failed to fetch blogs:", err);
+      } finally {
+        setIsLoading(false); // 🔑 Turn off loading when network operation finishes
       }
     };
 
@@ -220,8 +223,20 @@ function BlogsContent() {
           </div>
         </div>
 
+        {/* IS LOADING STATE */}
+        {isLoading && (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="h-64 w-full animate-pulse rounded-2xl bg-zinc-200 dark:bg-zinc-800"
+              />
+            ))}
+          </div>
+        )}
+
         {/* EMPTY STATE */}
-        {posts.length === 0 && (
+        {!isLoading && posts.length === 0 && (
           <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-center p-8">
             <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">
               No matching records found
