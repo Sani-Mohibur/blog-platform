@@ -39,7 +39,7 @@ export const blogService = {
 
       // Initialize with default no-store fallback cleanly
       const config: RequestInit = {
-        cache: options?.cache || "no-store",
+        ...(options?.revalidate ? {} : { cache: options?.cache || "no-store" }),
       };
 
       // Set up next properties only if explicitly required or fallback to tags safely
@@ -99,6 +99,79 @@ export const blogService = {
       return { data: data, error: null };
     } catch (err) {
       return { data: null, error: { message: "Something Went Wrong" } };
+    }
+  },
+
+  updateReadTime: async function (id: string, secondsSpent: number) {
+    try {
+      const res = await fetch(`${API_URL}/posts/${id}/read-time`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ secondsSpent }),
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, error: "Failed to sync time" };
+    }
+  },
+
+  getMyBlogPosts: async function (params?: { page?: string; limit?: string }) {
+    try {
+      const cookieStore = await cookies();
+      const url = new URL(`${API_URL}/posts/my-posts`);
+
+      if (params?.page) url.searchParams.append("page", params.page);
+      if (params?.limit) url.searchParams.append("limit", params.limit);
+
+      const res = await fetch(url.toString(), {
+        cache: "no-store",
+        headers: {
+          Cookie: cookieStore.toString(), // Passes the session token securely to the backend
+        },
+      });
+
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something Went Wrong" } };
+    }
+  },
+
+  deleteBlogPost: async function (id: string) {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/posts/${id}`, {
+        method: "DELETE",
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+      });
+
+      const data = await res.json();
+      return { data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Failed to delete post" } };
+    }
+  },
+
+  updateBlogPost: async function (id: string, blogData: Partial<BlogData>) {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/posts/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(blogData),
+      });
+
+      const data = await res.json();
+      return { data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Failed to update post" } };
     }
   },
 };
