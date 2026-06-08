@@ -35,9 +35,8 @@ function BlogsContent() {
   // Sync state cleanly if the URL changes directly
   useEffect(() => {
     const fetchBlogs = async () => {
-      const url = new URL(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/posts`,
-      );
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const url = new URL(`${baseUrl}/posts`);
 
       url.searchParams.append("page", urlPage);
       url.searchParams.append("limit", "9");
@@ -51,6 +50,11 @@ function BlogsContent() {
 
       try {
         const res = await fetch(url.toString(), { cache: "no-store" });
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error(`Server returned status ${res.status}:`, errorText);
+          return;
+        }
         const result = await res.json();
 
         // Adapt this mapping to match your server response structure structure
