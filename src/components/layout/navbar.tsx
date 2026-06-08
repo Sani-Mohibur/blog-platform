@@ -21,6 +21,14 @@ import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { authClient } from "@/lib/auth-client"; // Import the auth client
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 interface MenuItem {
   title: string;
@@ -48,8 +56,8 @@ interface Navbar1Props {
 
 const Navbar = ({
   logo = {
-    url: "https://sani-mohibur.github.io/portfolio/",
-    src: "thought_space_logo.svg",
+    url: "/",
+    src: "/thought_space_logo.svg",
     alt: "logo",
     title: "ThoughtSpace",
   },
@@ -98,6 +106,27 @@ const Navbar = ({
                 {logo.title}
               </span>
             </a>
+            {/* <a href={logo.url} className="flex items-center gap-2 group">
+              
+              <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white dark:group-hover:bg-purple-500 transition-all duration-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4"
+                >
+                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" />
+                </svg>
+              </div>
+              <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                {logo.title}
+              </span>
+            </a> */}
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -107,24 +136,64 @@ const Navbar = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <ModeToggle />
 
             {/* Conditional Authentication rendering blocks */}
             {!isPending &&
               (session ? (
-                <Button onClick={handleLogout} variant="destructive" size="sm">
-                  Logout
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-9 w-9 rounded-full bg-muted flex items-center justify-center border"
+                    >
+                      <span className="font-medium text-sm">
+                        {session.user.name?.charAt(0).toUpperCase()}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {session.user.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {session.user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+
+                    <DropdownMenuSeparator />
+
+                    <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground flex items-center justify-between">
+                      <span>Role</span>
+                      <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold">
+                        {(session.user as any).role}
+                      </span>
+                    </div>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
-                <>
+                <div className="flex items-center gap-2">
                   <Button asChild variant="outline" size="sm">
                     <Link href={auth.login.url}>{auth.login.title}</Link>
                   </Button>
                   <Button asChild size="sm">
                     <Link href={auth.signup.url}>{auth.signup.title}</Link>
                   </Button>
-                </>
+                </div>
               ))}
           </div>
         </nav>
@@ -168,17 +237,35 @@ const Navbar = ({
 
                   <div className="flex flex-col gap-3">
                     {/* Conditional Mobile Button Viewports */}
+                    {/* Conditional Mobile Button Viewports */}
                     {!isPending &&
                       (session ? (
-                        <Button
-                          onClick={handleLogout}
-                          variant="destructive"
-                          className="w-full"
-                        >
-                          Logout
-                        </Button>
+                        <div className="flex flex-col space-y-4 border-t pt-4 mt-2">
+                          {/* Profile Details Block */}
+                          <div className="flex flex-col space-y-1 px-1">
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm font-semibold">
+                                {session.user.name}
+                              </p>
+                              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold">
+                                {(session.user as any).role}
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {session.user.email}
+                            </p>
+                          </div>
+
+                          <Button
+                            onClick={handleLogout}
+                            variant="destructive"
+                            className="w-full"
+                          >
+                            Logout
+                          </Button>
+                        </div>
                       ) : (
-                        <>
+                        <div className="flex flex-col gap-3 mt-2">
                           <Button asChild variant="outline" className="w-full">
                             <Link href={auth.login.url}>
                               {auth.login.title}
@@ -189,7 +276,7 @@ const Navbar = ({
                               {auth.signup.title}
                             </Link>
                           </Button>
-                        </>
+                        </div>
                       ))}
                   </div>
                 </div>

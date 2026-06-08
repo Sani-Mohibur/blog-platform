@@ -3,8 +3,19 @@
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname(); // 2. Paste this here
+
+  // 3. Paste the helper logic function right here:
+  const handleNavigation = (e: React.MouseEvent, targetPath: string) => {
+    if (pathname === targetPath) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -30,17 +41,19 @@ export default function Footer() {
 
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
-                <button
-                  onClick={scrollToTop}
-                  className="hover:text-foreground cursor-pointer transition-colors"
+                <Link
+                  href="/"
+                  onClick={(e) => handleNavigation(e, "/")}
+                  className="hover:text-foreground transition-colors"
                 >
                   Home
-                </button>
+                </Link>
               </li>
 
               <li>
                 <Link
                   href="/blogs"
+                  onClick={(e) => handleNavigation(e, "/blogs")}
                   className="hover:text-foreground transition-colors"
                 >
                   Blogs
@@ -50,6 +63,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
+                  onClick={(e) => handleNavigation(e, "/about")}
                   className="hover:text-foreground transition-colors"
                 >
                   About
@@ -59,6 +73,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard"
+                  onClick={(e) => handleNavigation(e, "/dashboard")}
                   className="hover:text-foreground transition-colors"
                 >
                   Dashboard
