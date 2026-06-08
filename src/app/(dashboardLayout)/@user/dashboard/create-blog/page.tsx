@@ -8,11 +8,7 @@ export default async function CreateBlogPage() {
 
   return (
     <div>
-      {/* <CreateBlogFormServer /> */}
       <CreateBlogFormClient />
-      {/* {data.data.map((item: BlogPost) => (
-        <p key={item.id}>{item.title} </p>
-      ))} */}
     </div>
   );
 }

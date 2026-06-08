@@ -11,9 +11,11 @@ export default async function HistoryPage({
 }) {
   const { page } = await searchParams;
 
-  const response = await blogService.getBlogPosts({ page });
+  const response = await blogService.getMyBlogPosts({ page });
 
-  const posts = response.data?.data || [];
+  const posts = Array.isArray(response.data)
+    ? response.data
+    : response.data?.data || [];
   const pagination = response.data?.pagination || {
     limit: 10,
     page: 1,
