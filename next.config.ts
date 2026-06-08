@@ -1,5 +1,6 @@
 import "./src/env";
 import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
 
 const nextConfig: NextConfig = {
   images: {
@@ -25,7 +26,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/auth/:path*",
+        source: "/api/:path*",
         destination:
           "https://prisma-blog-server-a55e.onrender.com/api/auth/:path*",
       },
