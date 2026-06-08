@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <linearGradient id="cloudGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#8a2be2" />
+            <stop offset="100%" stop-color="#4169e1" />
+        </linearGradient>
+    </defs>
+
+    <path d="M 90 260 C 10 260, 10 120, 90 120 C 70 30, 230 -10, 290 50 C 350 -10, 490 30, 470 140 C 530 140, 540 260, 460 260 Z" 
+          fill="none" stroke="url(#cloudGrad)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <path d="M 190 100 Q 190 80 170 80 Q 190 80 190 60 Q 190 80 210 80 Q 190 80 190 100 Z" fill="#8a2be2"/>
+    <path d="M 430 160 Q 430 145 415 145 Q 430 145 430 130 Q 430 145 445 145 Q 430 145 430 160 Z" fill="#4169e1"/>
+    <circle cx="285" cy="100" r="14" fill="#000"/>
+    <circle cx="355" cy="140" r="12" fill="#000"/>
+    <circle cx="110" cy="190" r="16" fill="#8a2be2"/>
+
+    <circle cx="240" cy="315" r="135" fill="#fff" stroke="#000" stroke-width="26"/>
+    <path d="M 150 410 L 100 465 Q 90 475 105 465 L 180 430" fill="#fff" stroke="#000" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="240" cy="315" r="120" fill="#fff"/>
+
+    <line x1="160" y1="280" x2="270" y2="280" stroke="#000" stroke-width="24" stroke-linecap="round"/>
+    <line x1="160" y1="320" x2="270" y2="320" stroke="#000" stroke-width="24" stroke-linecap="round"/>
+    <line x1="160" y1="360" x2="270" y2="360" stroke="#000" stroke-width="24" stroke-linecap="round"/>
+
+    <g transform="rotate(22 360 290)">
+        <rect x="330" y="80" width="50" height="200" rx="10" fill="#fff" stroke="#000" stroke-width="26"/>
+        <line x1="355" y1="80" x2="355" y2="280" stroke="#000" stroke-width="10"/>
+        <line x1="330" y1="125" x2="380" y2="125" stroke="#000" stroke-width="20"/>
+        <path d="M 330 280 L 355 335 L 380 280 Z" fill="#fff" stroke="#000" stroke-width="26" stroke-linejoin="round"/>
+        <path d="M 346 315 L 355 335 L 364 315 Z" fill="#000"/>
+    </g>
+</svg>
