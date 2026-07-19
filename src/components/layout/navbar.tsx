@@ -91,18 +91,18 @@ const Navbar = ({
   };
 
   return (
-    <section className={cn("py-4", className)}>
+    <section className={cn("py-6", className)}>
       <div className="container mx-auto px-4">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
-          <div className="flex items-center gap-6">
-            <a href={logo.url} className="flex items-center">
+          <div className="flex items-center gap-8">
+            <a href={logo.url} className="flex items-center gap-3">
               <img
                 src={logo.src}
-                className="max-h-16 dark:invert"
+                className="max-h-12 dark:invert"
                 alt={logo.alt}
               />
-              <span className="text-lg font-semibold tracking-tighter">
+              <span className="text-xl font-bold tracking-tight">
                 {logo.title}
               </span>
             </a>
