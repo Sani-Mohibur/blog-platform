@@ -24,17 +24,17 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    const backendUrl = process.env.BACKEND_URL || "https://prisma-blog-server-a55e.onrender.com";
     return [
       {
         // 1. Keep auth requests routed to backend auth handler
         source: "/api/auth/:path*",
-        destination:
-          "https://prisma-blog-server-a55e.onrender.com/api/auth/:path*",
+        destination: `${backendUrl}/api/auth/:path*`,
       },
       {
         // 2. Map all other data calls (like /api/posts -> /posts) by stripping out "/api"
         source: "/api/:path*",
-        destination: "https://prisma-blog-server-a55e.onrender.com/:path*",
+        destination: `${backendUrl}/:path*`,
       },
     ];
   },
