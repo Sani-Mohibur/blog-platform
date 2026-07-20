@@ -120,7 +120,7 @@ export default function HistoryTable({ posts }: { posts: BlogPost[] }) {
                       {/* Edit Tooltip */}
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link href={`/dashboard/history/edit/${post.id}`}>
+                          <Link href={`/dashboard/my-blogs/edit/${post.id}`}>
                             <Button
                               variant="ghost"
                               size="icon"

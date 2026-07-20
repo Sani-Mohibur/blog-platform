@@ -13,10 +13,12 @@ import { DashboardBreadcrumbs } from "@/components/layout/dashboard-breadcrumbs"
 export default async function DashboardLayout({
   admin,
   user,
+  moderator,
 }: {
   children: React.ReactNode;
   admin: React.ReactNode;
   user: React.ReactNode;
+  moderator: React.ReactNode;
 }) {
   const { data } = await userService.getSession();
   const userInfo = data.user;
@@ -42,7 +44,7 @@ export default async function DashboardLayout({
         </header>
 
         <div className="flex flex-1 flex-col gap-4 p-4">
-          {userInfo.role === Roles.admin ? admin : user}
+          {userInfo.role === Roles.admin ? admin : userInfo.role === Roles.moderator ? moderator : user}
         </div>
       </SidebarInset>
     </SidebarProvider>

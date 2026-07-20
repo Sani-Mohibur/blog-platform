@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { blogService } from "@/services/blog.service";
 import ReadTimeTracker from "@/components/modules/blog/ReadTimeTracker";
+import BlogImageSlider from "@/components/modules/blog/BlogImageSlider";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -56,8 +57,10 @@ export default async function BlogPage({
         </div>
       </header>
 
-      {/* Premium Aspect-Ratio Thumbnail Card */}
-      {blog.thumbnail && (
+      {/* Premium Aspect-Ratio Thumbnail / Image Slider */}
+      {(blog.images && blog.images.length > 0) ? (
+        <BlogImageSlider images={blog.images} title={blog.title} />
+      ) : blog.thumbnail ? (
         <div className="mb-8 overflow-hidden rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 bg-zinc-100 dark:bg-zinc-900 shadow-md">
           <img
             src={blog.thumbnail}
@@ -65,7 +68,7 @@ export default async function BlogPage({
             className="w-full max-h-[500px] object-contain object-center hover:scale-[1.01] transition-transform duration-500"
           />
         </div>
-      )}
+      ) : null}
 
       {/* Content Body with Editorial Drop Cap */}
       <div className="prose prose-zinc prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200">
@@ -101,7 +104,13 @@ export default async function BlogPage({
 
       <Separator className="my-8" />
 
-      <CommentsSection postId={id} comments={blog.comments || []} />
+      {blog.allowComments ? (
+        <CommentsSection postId={id} comments={blog.comments || []} />
+      ) : (
+        <div className="py-8 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-dashed border-zinc-200 dark:border-zinc-800">
+          <p className="text-zinc-500 dark:text-zinc-400 font-medium">Comments are disabled for this post.</p>
+        </div>
+      )}
     </article>
   );
 }

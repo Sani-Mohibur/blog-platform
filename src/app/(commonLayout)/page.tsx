@@ -17,8 +17,15 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 mb-8">
-      {/* Hero Section */}
+    <div className="bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-950 dark:to-zinc-900 relative overflow-hidden min-h-screen">
+      {/* Background decorations */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+        <div className="absolute -top-[10%] -left-[5%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
+        <div className="absolute top-[40%] -right-[5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 pb-8 relative z-10">
+        {/* Hero Section */}
       <HeroSection />
 
       {/* Featured Posts */}
@@ -40,6 +47,7 @@ export default async function Home() {
             <BlogCard key={post.id} post={post} />
           ))}
         </div>
+      </div>
       </div>
     </div>
   );

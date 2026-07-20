@@ -18,6 +18,8 @@ interface GetBlogsParams {
 export interface BlogData {
   title: string;
   content: string;
+  thumbnail?: string | null;
+  images?: string[];
   tag?: string[];
 }
 
@@ -70,6 +72,36 @@ export const blogService = {
 
       const data = await res.json();
       return { data: data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something Went Wrong" } };
+    }
+  },
+
+  uploadImages: async function (formData: FormData) {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.error || data.status === "Error") {
+        const errObj = data.error;
+        let errorMessage = "Upload failed";
+        if (typeof errObj === "string") {
+          errorMessage = errObj;
+        } else if (errObj && typeof errObj === "object" && typeof errObj.message === "string") {
+          errorMessage = errObj.message;
+        } else if (data.message && typeof data.message === "string") {
+          errorMessage = data.message;
+        }
+        
+        return { data: null, error: { message: errorMessage } };
+      }
+      return { data: data.data as string[], error: null };
     } catch (err) {
       return { data: null, error: { message: "Something Went Wrong" } };
     }
