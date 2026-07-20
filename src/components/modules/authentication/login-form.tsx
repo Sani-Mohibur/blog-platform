@@ -178,7 +178,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         <Button
           form="login-form"
           type="submit"
-          className="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-50 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-medium py-2.5 rounded-xl transition-colors shadow-sm"
+          className="cursor-pointer w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-50 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-medium py-2.5 rounded-xl transition-colors shadow-sm"
         >
           Execute Login
         </Button>
@@ -196,7 +196,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
           onClick={() => handleGoogleLogin()}
           variant="outline"
           type="button"
-          className="w-full border-zinc-200 dark:border-zinc-800 bg-transparent hover:bg-zinc-50 dark:hover:bg-zinc-800/60 font-medium py-2.5 rounded-xl transition-all"
+          className="cursor-pointer w-full border-zinc-200 dark:border-zinc-800 bg-transparent hover:bg-zinc-50 dark:hover:bg-zinc-800/60 font-medium py-2.5 rounded-xl transition-all"
         >
           <svg className="h-4 w-4 mr-2 inline" viewBox="0 0 24 24">
             <path

@@ -29,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { UserAvatar } from "@/components/shared/UserAvatar";
 
 interface MenuItem {
   title: string;
@@ -144,13 +145,8 @@ const Navbar = ({
               (session ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="relative h-9 w-9 rounded-full bg-muted flex items-center justify-center border"
-                    >
-                      <span className="font-medium text-sm">
-                        {session.user.name?.charAt(0).toUpperCase()}
-                      </span>
+                    <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0 flex items-center justify-center border hover:opacity-80 transition-opacity cursor-pointer">
+                      <UserAvatar user={{ name: session.user.name, image: session.user.image }} />
                     </Button>
                   </DropdownMenuTrigger>
 
@@ -160,11 +156,18 @@ const Navbar = ({
                         <p className="text-sm font-medium leading-none">
                           {session.user.name}
                         </p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                          {session.user.email}
-                        </p>
                       </div>
                     </DropdownMenuLabel>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link href="/dashboard/profile">View Profile</Link>
+                    </DropdownMenuItem>
+                    
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link href="/dashboard/settings">Settings</Link>
+                    </DropdownMenuItem>
 
                     <DropdownMenuSeparator />
 
@@ -243,17 +246,28 @@ const Navbar = ({
                         <div className="flex flex-col space-y-4 border-t pt-4 mt-2">
                           {/* Profile Details Block */}
                           <div className="flex flex-col space-y-1 px-1">
-                            <div className="flex items-center justify-between">
-                              <p className="text-sm font-semibold">
-                                {session.user.name}
-                              </p>
-                              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold">
-                                {(session.user as any).role}
-                              </span>
+                            <div className="flex items-center gap-3">
+                              <UserAvatar user={{ name: session.user.name, image: session.user.image }} className="h-10 w-10" />
+                              <div className="flex flex-col flex-1">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm font-semibold">
+                                    {session.user.name}
+                                  </p>
+                                  <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold">
+                                    {(session.user as any).role}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                            <p className="text-xs text-muted-foreground">
-                              {session.user.email}
-                            </p>
+                          </div>
+
+                          <div className="flex flex-col gap-2">
+                            <Button asChild variant="secondary" className="w-full justify-start cursor-pointer">
+                              <Link href="/dashboard/profile">View Profile</Link>
+                            </Button>
+                            <Button asChild variant="secondary" className="w-full justify-start cursor-pointer">
+                              <Link href="/dashboard/settings">Settings</Link>
+                            </Button>
                           </div>
 
                           <Button
