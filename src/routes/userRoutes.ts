@@ -9,8 +9,16 @@ export const userRoutes: Route[] = [
         url: "/dashboard/create-blog",
       },
       {
-        title: "History",
-        url: "/dashboard/history",
+        title: "My Blogs",
+        url: "/dashboard/my-blogs",
+      },
+      {
+        title: "Profile",
+        url: "/dashboard/profile",
+      },
+      {
+        title: "Settings",
+        url: "/dashboard/settings",
       },
     ],
   },
