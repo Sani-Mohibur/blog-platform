@@ -21,6 +21,7 @@ import { authClient } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { env } from "@/env";
 
 // Form Schema with validation logic for matching passwords
 const formSchema = z
@@ -41,13 +42,13 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
 
   // Dynamic routing setup using the specified fallback configuration
   const callbackUrl =
-    searchParams.get("callbackUrl") || "https://blog-post-khaki.vercel.app";
+    searchParams.get("callbackUrl") || env.NEXT_PUBLIC_FRONTEND_URL;
 
   const handleGoogleLogin = async () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "https://blog-post-khaki.vercel.app",
+        callbackURL: env.NEXT_PUBLIC_FRONTEND_URL,
       });
     } catch (err) {
       toast.error("Google authentication failed");
