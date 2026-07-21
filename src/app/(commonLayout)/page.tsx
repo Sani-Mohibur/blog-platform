@@ -1,7 +1,9 @@
 import BlogCard from "@/components/modules/homepage/BlogCard";
 import FeaturedPostsSection from "@/components/modules/homepage/FeaturedPostsSection";
 import HeroSection from "@/components/modules/homepage/HeroSection";
+import TopAuthorsSection from "@/components/modules/homepage/TopAuthorsSection";
 import { blogService } from "@/services/blog.service";
+import { userService } from "@/services/user.service";
 import { BlogPost } from "@/types";
 
 export default async function Home() {
@@ -10,10 +12,12 @@ export default async function Home() {
     { limit: "09" },
     { revalidate: 10 },
   );
+  const authorsPromise = userService.getFeaturedAuthors();
 
-  const [featuredPosts, posts] = await Promise.all([
+  const [featuredPosts, posts, authorsRes] = await Promise.all([
     featuredPostsPromise,
     postsPromise,
+    authorsPromise,
   ]);
 
   return (
@@ -30,6 +34,9 @@ export default async function Home() {
 
       {/* Featured Posts */}
       <FeaturedPostsSection featuredPosts={featuredPosts?.data?.data || []} />
+
+      {/* Top Authors */}
+      <TopAuthorsSection topAuthors={authorsRes?.data || []} />
 
       {/* Latest Blogs */}
       <div>

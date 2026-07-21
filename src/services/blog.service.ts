@@ -13,6 +13,8 @@ interface GetBlogsParams {
   search?: string;
   page?: string;
   limit?: string;
+  authorId?: string;
+  status?: string;
 }
 
 export interface BlogData {

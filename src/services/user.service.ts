@@ -26,4 +26,31 @@ export const userService = {
       return { data: null, error: { message: "Something Went Wrong" } };
     }
   },
+  getFeaturedAuthors: async function () {
+    try {
+      const res = await fetch(`${env.API_URL}/users/featured-authors`, {
+        next: { revalidate: 60 },
+      });
+      const data = await res.json();
+      return { data: data.data, error: null };
+    } catch (err) {
+      console.error(err);
+      return { data: null, error: { message: "Failed to fetch featured authors" } };
+    }
+  },
+  getAuthorById: async function (id: string) {
+    try {
+      const res = await fetch(`${env.API_URL}/users/${id}`, {
+        next: { revalidate: 60 },
+      });
+      const data = await res.json();
+      if (!data.success) {
+        return { data: null, error: { message: data.message } };
+      }
+      return { data: data.data, error: null };
+    } catch (err) {
+      console.error(err);
+      return { data: null, error: { message: "Failed to fetch author profile" } };
+    }
+  },
 };
