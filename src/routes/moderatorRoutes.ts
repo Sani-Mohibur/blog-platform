@@ -1,13 +1,2 @@
-import { Route } from "@/types";
-
-export const moderatorRoutes: Route[] = [
-  {
-    title: "Moderator Panel",
-    items: [
-      {
-        title: "Dashboard",
-        url: "/dashboard",
-      },
-    ],
-  },
-];
+import { adminRoutes } from "./adminRoutes";
+export const moderatorRoutes = adminRoutes;

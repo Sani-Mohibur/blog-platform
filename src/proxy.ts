@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
 
   if (data) {
     isAuthenticated = true;
-    isAdmin = data.user.role === Roles.admin;
+    isAdmin = data.user.role === Roles.admin || data.user.role === Roles.moderator;
   }
 
   if (!isAuthenticated) {
