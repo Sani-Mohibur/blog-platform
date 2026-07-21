@@ -22,6 +22,7 @@ import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { authClient } from "@/lib/auth-client"; // Import the auth client
 import { useRouter } from "next/navigation";
+import { Roles } from "@/constants/roles";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,7 +113,13 @@ const Navbar = ({
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
-                  {menu.map((item) => renderMenuItem(item))}
+                  {menu.map((item) => {
+                    let url = item.url;
+                    if (item.title === "Dashboard" && session && ((session.user as any)?.role === Roles.admin || (session.user as any)?.role === Roles.moderator)) {
+                      url = "/admin-dashboard";
+                    }
+                    return renderMenuItem({ ...item, url });
+                  })}
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
@@ -143,11 +150,11 @@ const Navbar = ({
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem asChild className="cursor-pointer">
-                      <Link href="/dashboard/profile">View Profile</Link>
+                      <Link href={session.user && ((session.user as any).role === Roles.admin || (session.user as any).role === Roles.moderator) ? "/admin-dashboard/profile" : "/dashboard/profile"}>View Profile</Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem asChild className="cursor-pointer">
-                      <Link href="/dashboard/settings">Settings</Link>
+                      <Link href={session.user && ((session.user as any).role === Roles.admin || (session.user as any).role === Roles.moderator) ? "/admin-dashboard/settings" : "/dashboard/settings"}>Settings</Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator />
@@ -222,7 +229,13 @@ const Navbar = ({
                     collapsible
                     className="flex w-full flex-col gap-4"
                   >
-                    {menu.map((item) => renderMobileMenuItem(item, () => setIsOpen(false)))}
+                    {menu.map((item) => {
+                      let url = item.url;
+                      if (item.title === "Dashboard" && session && ((session.user as any)?.role === Roles.admin || (session.user as any)?.role === Roles.moderator)) {
+                        url = "/admin-dashboard";
+                      }
+                      return renderMobileMenuItem({ ...item, url }, () => setIsOpen(false));
+                    })}
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
@@ -250,10 +263,10 @@ const Navbar = ({
 
                           <div className="flex flex-col gap-2">
                             <Button asChild variant="secondary" className="w-full justify-start cursor-pointer" onClick={() => setIsOpen(false)}>
-                              <Link href="/dashboard/profile">View Profile</Link>
+                              <Link href={session.user && ((session.user as any).role === Roles.admin || (session.user as any).role === Roles.moderator) ? "/admin-dashboard/profile" : "/dashboard/profile"}>View Profile</Link>
                             </Button>
                             <Button asChild variant="secondary" className="w-full justify-start cursor-pointer" onClick={() => setIsOpen(false)}>
-                              <Link href="/dashboard/settings">Settings</Link>
+                              <Link href={session.user && ((session.user as any).role === Roles.admin || (session.user as any).role === Roles.moderator) ? "/admin-dashboard/settings" : "/dashboard/settings"}>Settings</Link>
                             </Button>
                           </div>
 

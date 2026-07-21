@@ -33,9 +33,16 @@ interface DashboardPost {
   };
 }
 
+import { ClientRedirect } from "@/components/shared/ClientRedirect";
+
 export default async function UserDashboard() {
   // 1. Fetch user session
   const { data: sessionData } = await userService.getSession();
+  
+  if (sessionData?.user?.role === "ADMIN" || sessionData?.user?.role === "MODERATOR") {
+    return <ClientRedirect to="/admin-dashboard" />;
+  }
+  
   const userName = sessionData?.user?.name || "Creator";
 
   // 2. Fetch all user-specific posts
