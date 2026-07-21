@@ -122,7 +122,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
                       name={field.name}
                       placeholder="name@example.com"
                       value={field.state.value}
-                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
                       onChange={(e) => field.handleChange(e.target.value)}
                       onBlur={field.handleBlur}
                     />
@@ -158,7 +158,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
                       name={field.name}
                       placeholder="••••••••"
                       value={field.state.value}
-                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
                       onChange={(e) => field.handleChange(e.target.value)}
                       onBlur={field.handleBlur}
                     />
@@ -188,25 +188,25 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
             <Button
               type="button"
               variant="outline"
-              className="w-full cursor-pointer text-xs border-zinc-200 dark:border-zinc-800 hover:border-purple-500/50 dark:hover:border-purple-500/50 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-all"
+              className="w-full cursor-pointer text-xs border-zinc-200 dark:border-zinc-800 hover:border-primary/50 dark:hover:border-primary/50 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all"
               onClick={() => {
                 form.setFieldValue("email", "johndoe@gmail.com");
                 form.setFieldValue("password", "12345678");
               }}
             >
-              <User className="h-4 w-4 text-purple-500" />
+              <User className="h-4 w-4 text-primary" />
               Login as User
             </Button>
             <Button
               type="button"
               variant="outline"
-              className="w-full cursor-pointer text-xs border-zinc-200 dark:border-zinc-800 hover:border-indigo-500/50 dark:hover:border-indigo-500/50 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-all"
+              className="w-full cursor-pointer text-xs border-zinc-200 dark:border-zinc-800 hover:border-primary/50 dark:hover:border-primary/50 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all"
               onClick={() => {
                 form.setFieldValue("email", "moderator@thoughtspace.com");
                 form.setFieldValue("password", "moderator1234");
               }}
             >
-              <Shield className="h-4 w-4 text-indigo-500" />
+              <Shield className="h-4 w-4 text-primary" />
               Login as Moderator
             </Button>
           </div>

@@ -32,7 +32,7 @@ export default function AuthorProfileView({ author, blogs }: AuthorProfileViewPr
             transition={{ duration: 0.5, type: "spring" }}
             className="w-40 h-40 md:w-48 md:h-48 flex-shrink-0 rounded-full border-4 border-white dark:border-zinc-950 shadow-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center"
           >
-            {author?.image ? (
+            {author?.image && author.image !== "null" && author.image !== "undefined" ? (
               <img src={author.image} alt={author?.name} className="w-full h-full object-cover" />
             ) : (
               <User className="w-20 h-20 text-zinc-400" />

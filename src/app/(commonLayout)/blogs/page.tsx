@@ -149,7 +149,7 @@ function BlogsContent() {
                     ? "Search by tag (e.g. backend, react)..."
                     : "Search blog titles..."
                 }
-                className="h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 pl-11 pr-4 text-sm outline-none focus:ring-2 focus:ring-purple-500/20"
+                className="h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 pl-11 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary/20"
               />
             </div>
 
@@ -164,16 +164,16 @@ function BlogsContent() {
 
         {/* PREMIUM ACTIVE CONTEXT BANNER */}
         {hasActiveFilters && (
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm bg-purple-50/40 dark:bg-purple-950/10 border border-purple-100/80 dark:border-purple-900/30 rounded-xl p-3">
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm bg-primary/5 border border-primary/20 rounded-xl p-3">
             <span className="text-zinc-500 dark:text-zinc-400 font-medium">
               Active Search:
             </span>
 
             {urlTitle && (
               <span className="inline-flex items-center gap-1.5 rounded-lg bg-white dark:bg-zinc-900 border px-2.5 py-1 text-xs font-medium text-zinc-800 dark:text-zinc-200 shadow-sm">
-                <FileText className="h-3 w-3 text-purple-500" />
+                <FileText className="h-3 w-3 text-primary" />
                 Title matches:{" "}
-                <strong className="text-purple-600 dark:text-purple-400">
+                <strong className="text-primary">
                   "{urlTitle}"
                 </strong>
                 <button
@@ -205,7 +205,7 @@ function BlogsContent() {
 
             <button
               onClick={clearFilters}
-              className="ml-auto inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-purple-500 underline"
+              className="ml-auto inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-primary underline"
             >
               <RefreshCw className="h-3 w-3" /> Clear filters
             </button>
@@ -277,7 +277,7 @@ export default function BlogsPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-zinc-50/50 dark:bg-zinc-950/20">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-500 border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
       }
     >

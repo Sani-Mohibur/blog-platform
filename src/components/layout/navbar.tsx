@@ -95,7 +95,7 @@ const Navbar = ({
   };
 
   return (
-    <section className={cn("py-2 md:py-0 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)}>
+    <section className={cn("sticky top-0 z-50 py-2 md:py-0 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)}>
       <div className="container mx-auto px-4">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">

@@ -38,7 +38,7 @@ export default function CommentCard({
     >
       <Avatar className="h-9 w-9 border border-zinc-200/50 dark:border-zinc-800 shadow-sm">
         <AvatarImage src={avatarUrl} alt={name} className="object-cover" />
-        <AvatarFallback className="bg-gradient-to-br from-indigo-50 to-purple-50 text-indigo-600 dark:from-purple-950/40 dark:to-indigo-950/40 dark:text-purple-300 text-xs font-semibold">
+        <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
           {fallbackName}
         </AvatarFallback>
       </Avatar>
@@ -70,7 +70,7 @@ export default function CommentCard({
               type="button"
               variant="ghost"
               size="sm"
-              className="h-auto px-2 py-1 text-xs font-medium text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/30 rounded-lg transition-colors"
+              className="h-auto px-2 py-1 text-xs font-medium text-zinc-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
               onClick={onReply}
             >
               <MessageCircle className="mr-1.5 h-3.5 w-3.5 transition-transform group-hover:scale-105" />

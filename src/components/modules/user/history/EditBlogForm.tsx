@@ -189,7 +189,7 @@ export default function EditBlogForm({ post }: EditBlogFormProps) {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter blog title"
           disabled={isPending}
-          className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+          className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
         />
       </div>
 
@@ -260,7 +260,7 @@ export default function EditBlogForm({ post }: EditBlogFormProps) {
                     </div>
                   )}
                   {idx >= existingImages.length && (
-                    <div className="absolute top-2 right-2 bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                    <div className="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
                       NEW
                     </div>
                   )}
@@ -317,7 +317,7 @@ export default function EditBlogForm({ post }: EditBlogFormProps) {
           placeholder="Write your content here..."
           disabled={isPending}
           rows={6}
-          className="flex w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50"
         />
       </div>
 

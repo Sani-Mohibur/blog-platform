@@ -23,7 +23,7 @@ export function UserAvatar({ user, className, fallbackClassName }: UserAvatarPro
   return (
     <Avatar className={cn("h-9 w-9 border border-zinc-200 dark:border-zinc-800 shadow-sm", className)}>
       <AvatarImage
-        src={user?.image || undefined}
+        src={(user?.image && user.image !== "null" && user.image !== "undefined") ? user.image : undefined}
         alt={name}
         className="object-cover"
       />

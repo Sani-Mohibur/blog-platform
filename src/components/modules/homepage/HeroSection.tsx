@@ -70,7 +70,7 @@ const HeroSection = () => {
   const slide = slides[current];
 
   return (
-    <div className="relative w-full min-h-[calc(100vh-80px)] flex items-center justify-center py-12 lg:py-0 pb-20 lg:pb-32">
+    <div className="relative w-full flex items-center justify-center pt-24 pb-0 lg:pt-32 lg:pb-0">
       <div className="w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           {/* Left Column: Content */}

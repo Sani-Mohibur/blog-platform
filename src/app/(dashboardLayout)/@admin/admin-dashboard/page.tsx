@@ -32,7 +32,7 @@ export default async function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8f7fa] via-[#f1ecf7] to-[#e8def5] text-zinc-900 selection:bg-purple-100 selection:text-purple-900">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-primary/20 selection:text-primary">
       <div className="relative mx-auto max-w-7xl space-y-12 px-6 py-12 sm:px-8">
         {/* HEADER */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between border-b border-zinc-200/60 pb-8">
@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
               configurations.
             </p>
           </div>
-          <div className="flex items-center gap-2 self-start rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium border border-zinc-200/80 backdrop-blur-md text-zinc-600 shadow-sm">
+          <div className="flex items-center gap-2 self-start rounded-full bg-white/80 dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium border border-zinc-200/80 dark:border-zinc-800 backdrop-blur-md text-zinc-600 dark:text-zinc-300 shadow-sm">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             Live Sync Active
           </div>
@@ -58,47 +58,47 @@ export default async function AdminDashboard() {
               title: "Total Views",
               value: stats.totalViews,
               icon: Eye,
-              color: "from-blue-500/5",
+              color: "from-primary/5",
             },
             {
               title: "Total Posts",
               value: stats.totalPosts,
               icon: FileText,
-              color: "from-purple-500/5",
+              color: "from-primary/5",
             },
             {
               title: "Total Members",
               value: stats.totalMembers,
               icon: Users,
-              color: "from-emerald-500/5",
+              color: "from-primary/5",
             },
             {
               title: "Total Comments",
               value: stats.totalComments,
               icon: MessageCircle,
-              color: "from-amber-500/5",
+              color: "from-primary/5",
             },
           ].map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="group relative overflow-hidden rounded-2xl bg-white/70 border border-white/80 p-6 transition-all duration-300 hover:border-purple-300/50 hover:-translate-y-0.5 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_40px_rgba(120,119,198,0.08)]"
+                className="group relative overflow-hidden rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-zinc-200/50 dark:border-zinc-800/80 p-6 transition-all duration-300 hover:border-primary/50 hover:-translate-y-0.5 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_40px_rgba(37,99,235,0.08)]"
               >
                 <div
-                  className={`absolute top-0 left-0 w-32 h-32 bg-gradient-to-br ${item.color} to-transparent blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  className={`absolute top-0 left-0 w-32 h-32 bg-gradient-to-br ${item.color} dark:${item.color.replace('/5', '/10')} to-transparent blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                 />
                 <div className="relative flex items-center justify-between">
-                  <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">
+                  <p className="text-xs font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     {item.title}
                   </p>
-                  <Icon className="h-4 w-4 text-zinc-400 group-hover:text-purple-500 transition-colors" />
+                  <Icon className="h-4 w-4 text-zinc-400 group-hover:text-primary transition-colors" />
                 </div>
                 <div className="relative mt-4 flex items-baseline justify-between">
-                  <h2 className="text-4xl font-semibold tracking-tight text-zinc-900">
+                  <h2 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
                     {item.value?.toLocaleString() ?? 0}
                   </h2>
-                  <ArrowUpRight className="h-4 w-4 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0" />
+                  <ArrowUpRight className="h-4 w-4 text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0" />
                 </div>
               </div>
             );
@@ -135,13 +135,13 @@ export default async function AdminDashboard() {
                   return (
                     <div
                       key={item.title}
-                      className="rounded-xl bg-white/50 border border-white/60 p-5 hover:bg-white/80 transition-colors shadow-sm"
+                      className="rounded-xl bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/80 p-5 hover:bg-white/80 dark:hover:bg-zinc-900/80 transition-colors shadow-sm"
                     >
                       <div className="flex items-center justify-between text-zinc-400">
                         <p className="text-xs font-medium">{item.title}</p>
                         <Icon className="h-3.5 w-3.5 opacity-60" />
                       </div>
-                      <p className="mt-3 text-xl font-medium text-zinc-800">
+                      <p className="mt-3 text-xl font-medium text-zinc-800 dark:text-zinc-200">
                         {item.value}
                       </p>
                     </div>
@@ -177,7 +177,7 @@ export default async function AdminDashboard() {
                   return (
                     <div
                       key={item.title}
-                      className="rounded-xl bg-white/50 border border-white/60 p-5 hover:bg-white/80 transition-colors shadow-sm"
+                      className="rounded-xl bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/80 p-5 hover:bg-white/80 dark:hover:bg-zinc-900/80 transition-colors shadow-sm"
                     >
                       <div className="flex items-center justify-between text-zinc-400">
                         <p className="text-xs font-medium">{item.title}</p>
@@ -208,12 +208,12 @@ export default async function AdminDashboard() {
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-xl bg-white/50 border border-white/60 p-5 hover:bg-white/80 transition-colors shadow-sm"
+                    className="rounded-xl bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/80 p-5 hover:bg-white/80 dark:hover:bg-zinc-900/80 transition-colors shadow-sm"
                   >
                     <p className="text-xs font-medium text-zinc-400">
                       {item.title}
                     </p>
-                    <p className="mt-3 text-xl font-medium text-zinc-800">
+                    <p className="mt-3 text-xl font-medium text-zinc-800 dark:text-zinc-200">
                       {item.value}
                     </p>
                   </div>
@@ -223,15 +223,15 @@ export default async function AdminDashboard() {
           </div>
 
           {/* RIGHT SIDE SNAPSHOT */}
-          <div className="rounded-2xl bg-white/70 border border-white/90 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.02)] h-fit lg:sticky lg:top-8">
+          <div className="rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-zinc-200/50 dark:border-zinc-800/80 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.02)] h-fit lg:sticky lg:top-8">
             <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
               System Telemetry
             </h3>
 
-            <div className="divide-y divide-zinc-100 text-xs">
+            <div className="divide-y divide-zinc-200/60 dark:divide-zinc-800/80 text-xs">
               <div className="flex justify-between py-3.5">
                 <span className="text-zinc-500">Ingested Posts Today</span>
-                <span className="font-medium text-zinc-800">
+                <span className="font-medium text-zinc-800 dark:text-zinc-200">
                   {stats.publishedPosts}
                 </span>
               </div>
@@ -249,7 +249,7 @@ export default async function AdminDashboard() {
                 <span className="text-zinc-500">
                   Active Node Administrators
                 </span>
-                <span className="font-medium text-zinc-800">
+                <span className="font-medium text-zinc-800 dark:text-zinc-200">
                   {stats.totalAdmins}
                 </span>
               </div>

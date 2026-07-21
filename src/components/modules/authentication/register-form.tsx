@@ -131,7 +131,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                       name={field.name}
                       placeholder="Enter your name"
                       value={field.state.value}
-                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {isInvalid && (
@@ -165,7 +165,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                       name={field.name}
                       placeholder="name@example.com"
                       value={field.state.value}
-                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {isInvalid && (
@@ -199,7 +199,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                       name={field.name}
                       placeholder="••••••••"
                       value={field.state.value}
-                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {isInvalid && (
@@ -233,7 +233,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                       name={field.name}
                       placeholder="••••••••"
                       value={field.state.value}
-                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-purple-500/20"
+                      className="bg-zinc-50/50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-primary/20"
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {isInvalid && (

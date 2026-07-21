@@ -173,9 +173,9 @@ export default function CommentsSection({
 
                   {/* Reply box (kept unchanged logic) */}
                   {replyTo?.id === comment.id && (
-                    <div className="ml-2 rounded-xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/30 dark:bg-indigo-950/20 p-3 space-y-3">
+                    <div className="ml-2 rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-3">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-indigo-600 dark:text-indigo-400 font-medium">
+                        <span className="text-primary font-medium">
                           Replying to {comment.authorName}
                         </span>
                         <Button
@@ -209,7 +209,7 @@ export default function CommentsSection({
                           type="button"
                           onClick={handleReplySubmit}
                           disabled={isSubmitting || !replyText.trim()}
-                          className="h-8 text-xs bg-indigo-600 text-white"
+                          className="h-8 text-xs bg-primary text-primary-foreground"
                         >
                           {isSubmitting ? "Posting..." : "Reply"}
                         </Button>

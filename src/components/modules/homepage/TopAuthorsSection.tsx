@@ -57,7 +57,7 @@ export default function TopAuthorsSection({ topAuthors }: Props) {
 
   if (isLoading) {
     return (
-      <section className="mb-16">
+      <section>
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Top Authors</h2>
@@ -76,7 +76,7 @@ export default function TopAuthorsSection({ topAuthors }: Props) {
   const activeAuthor = validAuthors[activeIndex];
 
   return (
-    <section className="mb-24">
+    <section>
       <div className="flex items-center justify-between mb-10">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Top Authors</h2>
@@ -144,7 +144,7 @@ export default function TopAuthorsSection({ topAuthors }: Props) {
                   style={{ originX: 0.5, originY: 0.5 }}
                 >
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800">
-                    {author.image ? (
+                    {author.image && author.image !== "null" && author.image !== "undefined" ? (
                       <img 
                         src={author.image} 
                         alt={author.name}
