@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -75,6 +76,7 @@ const Navbar = ({
   className,
 }: Navbar1Props) => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   // 1. Fetch live session state hook from Better-Auth
   const { data: session, isPending } = authClient.useSession();
@@ -92,7 +94,7 @@ const Navbar = ({
   };
 
   return (
-    <section className={cn("py-6", className)}>
+    <section className={cn("py-2 md:py-0 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)}>
       <div className="container mx-auto px-4">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
@@ -100,34 +102,13 @@ const Navbar = ({
             <a href={logo.url} className="flex items-center gap-3">
               <img
                 src={logo.src}
-                className="max-h-12 dark:invert"
+                className="max-h-17 dark:invert"
                 alt={logo.alt}
               />
-              <span className="text-xl font-bold tracking-tight">
+              <span className="text-2xl font-bold tracking-tight">
                 {logo.title}
               </span>
             </a>
-            {/* <a href={logo.url} className="flex items-center gap-2 group">
-              
-              <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white dark:group-hover:bg-purple-500 transition-all duration-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-4 w-4"
-                >
-                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                  <path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" />
-                </svg>
-              </div>
-              <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                {logo.title}
-              </span>
-            </a> */}
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -164,7 +145,7 @@ const Navbar = ({
                     <DropdownMenuItem asChild className="cursor-pointer">
                       <Link href="/dashboard/profile">View Profile</Link>
                     </DropdownMenuItem>
-                    
+
                     <DropdownMenuItem asChild className="cursor-pointer">
                       <Link href="/dashboard/settings">Settings</Link>
                     </DropdownMenuItem>
@@ -207,11 +188,14 @@ const Navbar = ({
             <a href={logo.url} className="flex items-center gap-2">
               <img
                 src={logo.src}
-                className="max-h-8 dark:invert"
+                className="max-h-10 dark:invert"
                 alt={logo.alt}
               />
+              <span className="text-xl font-bold tracking-tight">
+                {logo.title}
+              </span>
             </a>
-            <Sheet>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
                   <Menu className="size-4" />
@@ -220,12 +204,15 @@ const Navbar = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
+                    <a href={logo.url} className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                       <img
                         src={logo.src}
-                        className="max-h-8 dark:invert"
+                        className="max-h-10 dark:invert"
                         alt={logo.alt}
                       />
+                      <span className="text-xl font-bold tracking-tight">
+                        {logo.title}
+                      </span>
                     </a>
                   </SheetTitle>
                 </SheetHeader>
@@ -235,7 +222,7 @@ const Navbar = ({
                     collapsible
                     className="flex w-full flex-col gap-4"
                   >
-                    {menu.map((item) => renderMobileMenuItem(item))}
+                    {menu.map((item) => renderMobileMenuItem(item, () => setIsOpen(false)))}
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
@@ -262,16 +249,19 @@ const Navbar = ({
                           </div>
 
                           <div className="flex flex-col gap-2">
-                            <Button asChild variant="secondary" className="w-full justify-start cursor-pointer">
+                            <Button asChild variant="secondary" className="w-full justify-start cursor-pointer" onClick={() => setIsOpen(false)}>
                               <Link href="/dashboard/profile">View Profile</Link>
                             </Button>
-                            <Button asChild variant="secondary" className="w-full justify-start cursor-pointer">
+                            <Button asChild variant="secondary" className="w-full justify-start cursor-pointer" onClick={() => setIsOpen(false)}>
                               <Link href="/dashboard/settings">Settings</Link>
                             </Button>
                           </div>
 
                           <Button
-                            onClick={handleLogout}
+                            onClick={() => {
+                              handleLogout();
+                              setIsOpen(false);
+                            }}
                             variant="destructive"
                             className="w-full"
                           >
@@ -280,12 +270,12 @@ const Navbar = ({
                         </div>
                       ) : (
                         <div className="flex flex-col gap-3 mt-2">
-                          <Button asChild variant="outline" className="w-full">
+                          <Button asChild variant="outline" className="w-full" onClick={() => setIsOpen(false)}>
                             <Link href={auth.login.url}>
                               {auth.login.title}
                             </Link>
                           </Button>
-                          <Button asChild className="w-full">
+                          <Button asChild className="w-full" onClick={() => setIsOpen(false)}>
                             <Link href={auth.signup.url}>
                               {auth.signup.title}
                             </Link>
@@ -308,7 +298,7 @@ const renderMenuItem = (item: MenuItem) => {
     <NavigationMenuItem key={item.title}>
       <NavigationMenuLink
         asChild
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-base font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
       >
         <Link href={item.url}>{item.title}</Link>
       </NavigationMenuLink>
@@ -316,9 +306,9 @@ const renderMenuItem = (item: MenuItem) => {
   );
 };
 
-const renderMobileMenuItem = (item: MenuItem) => {
+const renderMobileMenuItem = (item: MenuItem, onClick?: () => void) => {
   return (
-    <Link key={item.title} href={item.url} className="text-md font-semibold">
+    <Link key={item.title} href={item.url} className="text-lg font-semibold" onClick={onClick}>
       {item.title}
     </Link>
   );
