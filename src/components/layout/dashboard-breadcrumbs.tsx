@@ -7,15 +7,21 @@ export function DashboardBreadcrumbs() {
   const pathname = usePathname();
 
   // Check which sub-page we are on
-  const isRootDashboard = pathname === "/dashboard";
-  const isCreateBlog = pathname === "/dashboard/create-blog";
-  const isHistory = pathname === "/dashboard/history";
+  const isRootDashboard = pathname === "/dashboard" || pathname === "/admin-dashboard";
+  
+  const lastSegment = pathname.split('/').pop() || "";
+  const dynamicTitle = lastSegment
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
+  const rootHref = pathname.startsWith("/admin-dashboard") ? "/admin-dashboard" : "/dashboard";
 
   return (
     <nav className="flex items-center gap-2 text-sm font-medium">
       {/* Dashboard Item */}
       <Link
-        href="/dashboard"
+        href={rootHref}
         className={`transition-colors custom-transition ${
           isRootDashboard
             ? "text-foreground font-semibold cursor-default pointer-events-none"
@@ -30,8 +36,7 @@ export function DashboardBreadcrumbs() {
         <>
           <span className="text-muted-foreground/40">/</span>
           <span className="text-foreground font-semibold">
-            {isCreateBlog && "Create Blog"}
-            {isHistory && "History"}
+            {dynamicTitle}
           </span>
         </>
       )}
