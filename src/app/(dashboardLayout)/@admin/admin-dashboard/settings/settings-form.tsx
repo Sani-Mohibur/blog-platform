@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,13 +27,6 @@ export function SettingsForm({ initialData, currentRole }: { initialData: any, c
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleInteract = (e: React.MouseEvent | React.FocusEvent) => {
-    if (isModerator) {
-      e.preventDefault();
-      toast.error("You don't have permission to perform this action.");
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,51 +57,44 @@ export function SettingsForm({ initialData, currentRole }: { initialData: any, c
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="siteName">Site Name</Label>
-            <Input 
-              id="siteName" 
-              name="siteName" 
-              value={formData.siteName} 
+            <Input
+              id="siteName"
+              name="siteName"
+              value={formData.siteName}
               onChange={handleChange}
               disabled={isModerator}
-              onClick={handleInteract}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="contactEmail">Contact Email</Label>
-            <Input 
-              id="contactEmail" 
-              name="contactEmail" 
+            <Input
+              id="contactEmail"
+              name="contactEmail"
               type="email"
-              value={formData.contactEmail} 
+              value={formData.contactEmail}
               onChange={handleChange}
-              disabled={isModerator}
-              onClick={handleInteract}
             />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="siteDescription">Site Description</Label>
-          <Textarea 
-            id="siteDescription" 
-            name="siteDescription" 
-            value={formData.siteDescription} 
+          <Textarea
+            id="siteDescription"
+            name="siteDescription"
+            value={formData.siteDescription}
             onChange={handleChange}
             rows={3}
-            disabled={isModerator}
-            onClick={handleInteract}
           />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="logoUrl">Logo URL</Label>
-          <Input 
-            id="logoUrl" 
-            name="logoUrl" 
-            value={formData.logoUrl} 
+          <Input
+            id="logoUrl"
+            name="logoUrl"
+            value={formData.logoUrl}
             onChange={handleChange}
-            disabled={isModerator}
-            onClick={handleInteract}
           />
         </div>
 
@@ -118,35 +103,29 @@ export function SettingsForm({ initialData, currentRole }: { initialData: any, c
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="facebookUrl">Facebook URL</Label>
-              <Input 
-                id="facebookUrl" 
-                name="facebookUrl" 
-                value={formData.facebookUrl} 
+              <Input
+                id="facebookUrl"
+                name="facebookUrl"
+                value={formData.facebookUrl}
                 onChange={handleChange}
-                disabled={isModerator}
-                onClick={handleInteract}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="twitterUrl">Twitter URL</Label>
-              <Input 
-                id="twitterUrl" 
-                name="twitterUrl" 
-                value={formData.twitterUrl} 
+              <Input
+                id="twitterUrl"
+                name="twitterUrl"
+                value={formData.twitterUrl}
                 onChange={handleChange}
-                disabled={isModerator}
-                onClick={handleInteract}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="instagramUrl">Instagram URL</Label>
-              <Input 
-                id="instagramUrl" 
-                name="instagramUrl" 
-                value={formData.instagramUrl} 
+              <Input
+                id="instagramUrl"
+                name="instagramUrl"
+                value={formData.instagramUrl}
                 onChange={handleChange}
-                disabled={isModerator}
-                onClick={handleInteract}
               />
             </div>
           </div>
@@ -154,11 +133,9 @@ export function SettingsForm({ initialData, currentRole }: { initialData: any, c
       </div>
 
       <div className="flex justify-end pt-4">
-        <Button 
-          type="submit" 
-          disabled={loading || isModerator} 
-          onClick={handleInteract}
-          className={isModerator ? "opacity-50 cursor-not-allowed" : ""}
+        <Button
+          type="submit"
+          disabled={loading}
         >
           <Save className="h-4 w-4 mr-2" />
           {loading ? "Saving..." : "Save Changes"}
