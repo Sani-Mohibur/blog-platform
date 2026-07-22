@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, CheckCircle2, Sparkles, Send } from "lucide-react";
 import { toast } from "sonner";
@@ -7,9 +8,36 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function NewsletterSection() {
+  const [email, setEmail] = useState("");
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Newsletter subscription coming soon!");
+    
+    const trimmedEmail = email.trim();
+
+    // 1. If empty
+    if (!trimmedEmail) {
+      toast.error("Email required", {
+        description: "Please enter an email address.",
+      });
+      return;
+    }
+
+    // 2. Simple regex for validation checking
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      toast.error("Invalid email address", {
+        description: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    // 3. Success condition
+    toast.success("Successfully subscribed!", {
+      description:
+        "Thank you for tuning in to our weekly updates.",
+    });
+    setEmail(""); // Clean input field after success
   };
 
   const benefits = [
@@ -118,6 +146,8 @@ export default function NewsletterSection() {
                   placeholder="name@example.com" 
                   required
                   className="pl-10 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus-visible:ring-primary"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <Button type="submit" className="h-12 px-6 shadow-md hover:shadow-lg transition-shadow">
